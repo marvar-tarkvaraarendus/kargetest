@@ -1,0 +1,67 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: karge-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-karge}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kargepassword}
+      POSTGRES_DB: ${POSTGRES_DB:-karge_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - karge-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-karge} -d ${POSTGRES_DB:-karge_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Next.js Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: karge-app
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-karge}:${POSTGRES_PASSWORD:-kargepassword}@postgres:5432/${POSTGRES_DB:-karge_db}?schema=public
+      - JWT_SECRET=${JWT_SECRET:-your-super-secret-jwt-key-change-in-production}
+      - NODE_ENV=production
+    volumes:
+      # Persist uploaded images
+      - uploads_data:/app/public/uploads
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - karge-network
+
+  # Database migrations (one-time setup)
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile.migrate
+    container_name: karge-migrate
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-karge}:${POSTGRES_PASSWORD:-kargepassword}@postgres:5432/${POSTGRES_DB:-karge_db}?schema=public
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - karge-network
+    profiles:
+      - setup
+
+volumes:
+  postgres_data:
+    driver: local
+  uploads_data:
+    driver: local
+
+networks:
+  karge-network:
+    driver: bridge

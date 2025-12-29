@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Cookie (Product) model with flat JSON structure for multi-language support
+model Cookie {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  price       String   // e.g., "3.50"
+  imagePath   String   // path to /public/uploads/
+  name        Json     // { "et": "...", "en": "..." }
+  description Json     // { "et": "...", "en": "..." }
+  ingredients Json     // { "et": "...", "en": "..." }
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+}
+
+// Opening Times - single instance table
+model OpeningTimes {
+  id        String   @id @default("default")
+  content   Json     // Weekly schedule: { "monday": { "open": "09:00", "close": "18:00" }, ... }
+  updatedAt DateTime @updatedAt
+}
+
+// Admin user for authentication
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // bcrypt hashed
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

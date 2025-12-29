@@ -1,0 +1,18 @@
+# syntax=docker/dockerfile:1
+
+# Migration Dockerfile for database setup
+FROM oven/bun:1 AS migrate
+WORKDIR /app
+
+# Copy package files and install dependencies
+COPY package.json bun.lockb* ./
+RUN bun install --frozen-lockfile
+
+# Copy Prisma schema and seed
+COPY prisma ./prisma
+
+# Generate Prisma Client
+RUN bunx prisma generate
+
+# Run migrations and seed
+CMD ["sh", "-c", "bunx prisma db push && bun run prisma/seed.ts"]
