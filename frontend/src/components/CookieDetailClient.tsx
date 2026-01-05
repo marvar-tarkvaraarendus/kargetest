@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { getLocalizedText, formatPrice, type MultiLang } from "@/lib/utils";
+import { starPositions } from "@/lib/constants";
 
 interface CookieDetailClientProps {
   cookie: {
@@ -16,20 +17,6 @@ interface CookieDetailClientProps {
     price: string;
   };
 }
-
-const starPositions = [
-  { top: "top-20", left: "left-10", width: "w-16", opacity: "opacity-70" },
-  { top: "top-40", left: "right-32", width: "w-12", opacity: "opacity-60" },
-  { top: "top-1/3", left: "left-1/3", width: "w-10", opacity: "opacity-55" },
-  { top: "top-2/3", left: "right-1/4", width: "w-18", opacity: "opacity-70" },
-  { top: "bottom-32", left: "left-1/4", width: "w-20", opacity: "opacity-50" },
-  { top: "bottom-48", left: "right-1/3", width: "w-14", opacity: "opacity-65" },
-  { top: "top-10", left: "right-1/2", width: "w-8", opacity: "opacity-45" },
-  { top: "bottom-20", left: "right-20", width: "w-15", opacity: "opacity-60" },
-  { top: "top-1/4", left: "left-16", width: "w-11", opacity: "opacity-50" },
-  { top: "top-36", left: "left-1/2", width: "w-13", opacity: "opacity-55" },
-  { top: "bottom-1/4", left: "right-16", width: "w-10", opacity: "opacity-55" },
-];
 
 export default function CookieDetailClient({ cookie }: CookieDetailClientProps) {
   const { t, language } = useLanguage();

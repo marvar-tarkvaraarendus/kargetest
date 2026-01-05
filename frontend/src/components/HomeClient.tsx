@@ -6,37 +6,12 @@ import { ArrowRight, Instagram, Facebook } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CookieCard from "@/components/CookieCard";
+import { starPositions } from "@/lib/constants";
 import type { CookieData } from "@/lib/db";
 
 interface HomeClientProps {
   cookies: CookieData[];
 }
-
-const starPositions = [
-  { top: "top-20", left: "left-10", width: "w-16", opacity: "opacity-70" },
-  { top: "top-40", left: "right-32", width: "w-12", opacity: "opacity-60" },
-  { top: "top-1/3", left: "left-1/3", width: "w-10", opacity: "opacity-55" },
-  { top: "top-2/3", left: "right-1/4", width: "w-18", opacity: "opacity-70" },
-  { top: "bottom-32", left: "left-1/4", width: "w-20", opacity: "opacity-50" },
-  { top: "bottom-48", left: "right-1/3", width: "w-14", opacity: "opacity-65" },
-  { top: "top-10", left: "right-1/2", width: "w-8", opacity: "opacity-45" },
-  { top: "bottom-20", left: "right-20", width: "w-15", opacity: "opacity-60" },
-  { top: "top-1/4", left: "left-16", width: "w-11", opacity: "opacity-50" },
-  { top: "top-1", left: "left-1/2", width: "w-13", opacity: "opacity-55" },
-  { top: "bottom-1/4", left: "right-16", width: "w-10", opacity: "opacity-55" },
-  { top: "top-5", left: "right-10", width: "w-9", opacity: "opacity-40" },
-  { top: "top-1/2", left: "left-6", width: "w-14", opacity: "opacity-30" },
-  { top: "bottom-10", left: "left-24", width: "w-12", opacity: "opacity-65" },
-  { top: "top-32", left: "left-1/2", width: "w-8", opacity: "opacity-50" },
-  { top: "bottom-1/3", left: "right-1/2", width: "w-16", opacity: "opacity-25" },
-  { top: "top-24", left: "right-1/4", width: "w-10", opacity: "opacity-60" },
-  { top: "bottom-64", left: "left-16", width: "w-7", opacity: "opacity-45" },
-  { top: "top-3/4", left: "right-12", width: "w-20", opacity: "opacity-35" },
-  { top: "top-12", left: "left-1/4", width: "w-6", opacity: "opacity-50" },
-  { top: "bottom-8", left: "right-1/3", width: "w-11", opacity: "opacity-55" },
-  { top: "top-1/2", left: "right-6", width: "w-12", opacity: "opacity-40" },
-  { top: "top-4", left: "left-32", width: "w-10", opacity: "opacity-45" },
-];
 
 export default function HomeClient({ cookies }: HomeClientProps) {
   const { t } = useLanguage();
@@ -80,7 +55,7 @@ export default function HomeClient({ cookies }: HomeClientProps) {
 
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="relative h-[600px] flex items-center justify-center">
+        <section className="relative h-[450px] flex items-center justify-center">
           <div className="relative container mx-auto px-6 text-center animate-fade-in-up">
             <div className="mb-6 flex justify-center">
               <Image
@@ -106,9 +81,9 @@ export default function HomeClient({ cookies }: HomeClientProps) {
         </section>
 
         {/* Cookies Section */}
-        <section className="py-24 bg-gradient-to-b from-background via-primary/5 to-primary/5">
+        <section className="py-12 bg-gradient-to-b from-background via-primary/5 to-primary/5">
           <div className="container mx-auto px-6">
-            <div className="text-center mb-16 animate-fade-in-up">
+            <div className="text-center mb-10 animate-fade-in-up">
               <h2 className="text-4xl md:text-5xl font-bold text-pink-500">
                 {t("Küpsised", "Cookies")}
               </h2>
