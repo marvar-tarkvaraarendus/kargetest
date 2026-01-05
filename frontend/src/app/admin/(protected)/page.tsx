@@ -1,21 +1,23 @@
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getAllCookies, getOpeningTimes } from "@/lib/db";
+import { getAllCookies, getOpeningTimes, getContactInfo, getAboutStory } from "@/lib/db";
 import AdminHeader from "@/components/admin/AdminHeader";
 
 export default async function AdminDashboard() {
   const cookies = await getAllCookies();
   const openingTimes = await getOpeningTimes();
+  const contactInfo = await getContactInfo();
+  const aboutStory = await getAboutStory();
 
   return (
-    <div className="min-h-screen bg-muted/30">
+    <div className="min-h-screen bg-background">
       <AdminHeader />
       
       <main className="container mx-auto px-6 py-8">
         <h1 className="text-3xl font-bold text-pink-500 mb-8">Dashboard</h1>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {/* Cookies Card */}
           <Card>
             <CardHeader>
@@ -50,21 +52,37 @@ export default async function AdminDashboard() {
             </CardContent>
           </Card>
 
-          {/* Quick Actions Card */}
+          {/* Contact Info Card */}
           <Card>
             <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-              <CardDescription>Common tasks</CardDescription>
+              <CardTitle>Contact Info</CardTitle>
+              <CardDescription>Phone & email details</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <Link href="/admin/cookies/new">
-                <Button className="w-full" variant="secondary">
-                  Add New Cookie
+            <CardContent>
+              <div className="text-sm text-muted-foreground mb-4">
+                {contactInfo ? "Last updated: " + new Date(contactInfo.updatedAt).toLocaleDateString() : "Not configured"}
+              </div>
+              <Link href="/admin/contact-info">
+                <Button className="w-full" variant="outline">
+                  Edit Contact
                 </Button>
               </Link>
-              <Link href="/" target="_blank">
-                <Button className="w-full" variant="ghost">
-                  View Website →
+            </CardContent>
+          </Card>
+
+          {/* About Story Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle>About Story</CardTitle>
+              <CardDescription>Meie lugu section</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-sm text-muted-foreground mb-4">
+                {aboutStory ? "Last updated: " + new Date(aboutStory.updatedAt).toLocaleDateString() : "Not configured"}
+              </div>
+              <Link href="/admin/about-story">
+                <Button className="w-full" variant="outline">
+                  Edit Story
                 </Button>
               </Link>
             </CardContent>

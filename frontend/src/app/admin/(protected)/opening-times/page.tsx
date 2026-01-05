@@ -6,7 +6,7 @@ export default async function OpeningTimesPage() {
   const openingTimes = await getOpeningTimes();
 
   return (
-    <div className="min-h-screen bg-muted/30">
+    <div className="min-h-screen bg-background">
       <AdminHeader />
 
       <main className="container mx-auto px-6 py-8">

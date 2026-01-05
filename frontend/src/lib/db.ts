@@ -103,3 +103,57 @@ export async function updateOpeningTimes(
   });
   return times as OpeningTimesData;
 }
+
+// Contact Info types and operations
+export interface ContactInfoData {
+  id: string;
+  phone: string;
+  email: string;
+  updatedAt: Date;
+}
+
+export async function getContactInfo(): Promise<ContactInfoData | null> {
+  const info = await prisma.contactInfo.findUnique({
+    where: { id: "default" },
+  });
+  return info as ContactInfoData | null;
+}
+
+export async function updateContactInfo(data: {
+  phone: string;
+  email: string;
+}): Promise<ContactInfoData> {
+  const info = await prisma.contactInfo.upsert({
+    where: { id: "default" },
+    update: data,
+    create: { id: "default", ...data },
+  });
+  return info as ContactInfoData;
+}
+
+// About Story types and operations
+export interface AboutStoryData {
+  id: string;
+  title: MultiLang;
+  content: MultiLang;
+  updatedAt: Date;
+}
+
+export async function getAboutStory(): Promise<AboutStoryData | null> {
+  const story = await prisma.aboutStory.findUnique({
+    where: { id: "default" },
+  });
+  return story as AboutStoryData | null;
+}
+
+export async function updateAboutStory(data: {
+  title: MultiLang;
+  content: MultiLang;
+}): Promise<AboutStoryData> {
+  const story = await prisma.aboutStory.upsert({
+    where: { id: "default" },
+    update: data,
+    create: { id: "default", ...data },
+  });
+  return story as AboutStoryData;
+}

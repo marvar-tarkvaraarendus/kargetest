@@ -144,7 +144,7 @@ export default function CookieForm({ cookie }: CookieFormProps) {
                     slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"),
                   }))
                 }
-                placeholder="kinder-bueno-cookie"
+                placeholder="kinder-bueno"
                 required
               />
             </div>
@@ -221,7 +221,7 @@ export default function CookieForm({ cookie }: CookieFormProps) {
                 id="nameEt"
                 value={formData.nameEt}
                 onChange={(e) => setFormData((prev) => ({ ...prev, nameEt: e.target.value }))}
-                placeholder="Kinder Bueno Küpsis"
+                placeholder="Kinder Bueno"
                 required
               />
             </div>
@@ -231,7 +231,7 @@ export default function CookieForm({ cookie }: CookieFormProps) {
                 id="nameEn"
                 value={formData.nameEn}
                 onChange={(e) => setFormData((prev) => ({ ...prev, nameEn: e.target.value }))}
-                placeholder="Kinder Bueno Cookie"
+                placeholder="Kinder Bueno"
                 required
               />
             </div>

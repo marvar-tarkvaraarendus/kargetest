@@ -6,10 +6,77 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { starPositions } from "@/lib/constants";
 
-export default function MeistClient() {
-  const { t } = useLanguage();
+interface OpeningTimesContent {
+  [day: string]: { open: string; close: string };
+}
 
-  const contactInfo = [
+interface ContactInfoContent {
+  phone: string;
+  email: string;
+}
+
+interface AboutStoryContent {
+  title: { et: string; en: string };
+  content: { et: string; en: string };
+}
+
+interface MeistClientProps {
+  openingTimes: OpeningTimesContent | null;
+  contactInfo: ContactInfoContent | null;
+  aboutStory: AboutStoryContent | null;
+}
+
+const DAY_LABELS: Record<string, { et: string; en: string }> = {
+  monday: { et: "Esmaspäev", en: "Monday" },
+  tuesday: { et: "Teisipäev", en: "Tuesday" },
+  wednesday: { et: "Kolmapäev", en: "Wednesday" },
+  thursday: { et: "Neljapäev", en: "Thursday" },
+  friday: { et: "Reede", en: "Friday" },
+  saturday: { et: "Laupäev", en: "Saturday" },
+  sunday: { et: "Pühapäev", en: "Sunday" },
+};
+
+function formatOpeningHours(
+  openingTimes: OpeningTimesContent | null,
+  language: "et" | "en"
+): string[] {
+  if (!openingTimes) {
+    return language === "et" 
+      ? ["Avamisajad pole määratud"] 
+      : ["Opening hours not set"];
+  }
+
+  const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+  const result: string[] = [];
+
+  for (const day of days) {
+    const times = openingTimes[day];
+    if (!times) continue;
+
+    const label = DAY_LABELS[day][language];
+    if (times.open === "closed" || times.close === "closed") {
+      result.push(language === "et" ? `${label}: Suletud` : `${label}: Closed`);
+    } else {
+      result.push(`${label}: ${times.open} - ${times.close}`);
+    }
+  }
+
+  return result;
+}
+
+export default function MeistClient({ openingTimes, contactInfo, aboutStory }: MeistClientProps) {
+  const { t, language } = useLanguage();
+
+  const openingHoursDetails = formatOpeningHours(openingTimes, language);
+
+  // Dynamic about story content with fallbacks
+  const storyTitle = aboutStory?.title?.[language] || t("Meie lugu", "Our Story");
+  const storyContent = aboutStory?.content?.[language] || t(
+    "Karge sündis lihtsast unistusest: luua hubane nurk, kus erakordne kohv kohtub külalislahkusega. Alates ukse avamisest oleme pühendunud kogukonna teenimisele soojuse, kvaliteedi ja hoolega.",
+    "Karge was born from a simple dream: to create a cozy corner where exceptional coffee meets genuine hospitality. Since opening our doors, we've been dedicated to serving our community with warmth, quality, and care."
+  );
+
+  const contactItems = [
     {
       icon: MapPin,
       title: t("Külasta meid", "Visit Us"),
@@ -18,21 +85,17 @@ export default function MeistClient() {
     {
       icon: Clock,
       title: t("Avamisajad", "Opening Hours"),
-      details: [
-        t("T-L: 13:00 - 19:00", "Tuesday - Saturday: 13:00 - 19:00"),
-        t("P: 13:00 - 18:00", "Sunday: 13:00 - 18:00"),
-        t("E: Suletud", "Monday: Closed"),
-      ],
+      details: openingHoursDetails,
     },
     {
       icon: Phone,
       title: t("Helista meile", "Call Us"),
-      details: ["+372 1234 5678"],
+      details: [contactInfo?.phone || "+372 1234 5678"],
     },
     {
       icon: Mail,
       title: t("E-post", "Email"),
-      details: ["hello@karge.ee"],
+      details: [contactInfo?.email || "hello@karge.ee"],
     },
   ];
 
@@ -74,16 +137,23 @@ export default function MeistClient() {
           height={576}
           className="absolute -right-16 -bottom-32 w-[24rem] md:w-[36rem] opacity-100 animate-fade-in"
         />
-        {starPositions.map((star, index) => (
-          <Image
-            key={index}
-            src="/assets/KARGE täht lp.png"
-            alt=""
-            width={80}
-            height={80}
-            className={`absolute ${star.top} ${star.left} ${star.width} ${star.opacity} animate-fade-in`}
-          />
-        ))}
+        {starPositions.map((star, index) => {
+          // Extract percentage values from Tailwind classes (e.g., 'top-[5%]' -> '5%')
+          const topValue = star.top.match(/\[(.+)\]/)?.[1] || '0';
+          const leftValue = star.left.match(/\[(.+)\]/)?.[1] || '0';
+          
+          return (
+            <Image
+              key={index}
+              src="/assets/KARGE täht lp.png"
+              alt=""
+              width={80}
+              height={80}
+              style={{ top: topValue, left: leftValue }}
+              className={`absolute ${star.width} ${star.opacity} animate-fade-in`}
+            />
+          );
+        })}
       </div>
 
       <div className="relative z-30">
@@ -92,24 +162,11 @@ export default function MeistClient() {
           <div className="container mx-auto px-6">
             <div className="text-center mb-16 animate-fade-in-up">
               <h1 className="text-5xl font-bold mb-6">
-                {t("Meie lugu", "Our Story")}
+                {storyTitle}
               </h1>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                {t(
-                  "Karge sündis lihtsast unistusest: luua hubane nurk, kus erakordne kohv kohtub külalislahkusega. Alates ukse avamisest oleme pühendunud kogukonna teenimisele soojuse, kvaliteedi ja hoolega.",
-                  "Karge was born from a simple dream: to create a cozy corner where exceptional coffee meets genuine hospitality. Since opening our doors, we've been dedicated to serving our community with warmth, quality, and care."
-                )}
+                {storyContent}
               </p>
-            </div>
-
-            <div className="max-w-4xl mx-auto rounded-3xl overflow-hidden shadow-[var(--shadow-hover)] animate-scale-in">
-              <Image
-                src="/assets/cafe-corner.jpg"
-                alt={t("Meie hubane kohviku nurk", "Our cozy café corner")}
-                width={1200}
-                height={500}
-                className="w-full h-[500px] object-cover"
-              />
             </div>
           </div>
         </section>
@@ -130,7 +187,7 @@ export default function MeistClient() {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-              {contactInfo.map((info, index) => (
+              {contactItems.map((info, index) => (
                 <Card
                   key={index}
                   className="border-0 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-hover)] transition-all hover:-translate-y-2 animate-fade-in-up"

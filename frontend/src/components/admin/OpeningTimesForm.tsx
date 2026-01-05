@@ -46,6 +46,18 @@ export default function OpeningTimesForm({ openingTimes }: OpeningTimesFormProps
     }));
   };
 
+  const handleToggleClosed = (day: string) => {
+    setFormData((prev) => {
+      const isClosed = prev[day]?.open === "closed";
+      return {
+        ...prev,
+        [day]: isClosed 
+          ? { open: "08:00", close: "18:00" }
+          : { open: "closed", close: "closed" },
+      };
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -90,41 +102,62 @@ export default function OpeningTimesForm({ openingTimes }: OpeningTimesFormProps
           <CardTitle>Weekly Schedule</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {DAYS.map((day) => (
-            <div
-              key={day.key}
-              className="grid grid-cols-3 gap-4 items-center py-2 border-b border-border last:border-0"
-            >
-              <div>
-                <span className="font-medium">{day.labelEn}</span>
-                <span className="text-muted-foreground text-sm ml-2">
-                  ({day.labelEt})
-                </span>
+          {DAYS.map((day) => {
+            const isClosed = formData[day.key]?.open === "closed";
+            return (
+              <div
+                key={day.key}
+                className="grid grid-cols-4 gap-4 items-center py-2 border-b border-border last:border-0"
+              >
+                <div>
+                  <span className="font-medium">{day.labelEn}</span>
+                  <span className="text-muted-foreground text-sm ml-2">
+                    ({day.labelEt})
+                  </span>
+                </div>
+                <div className="space-y-1">
+                  <Label htmlFor={`${day.key}-open`} className="text-xs text-muted-foreground">
+                    Opens
+                  </Label>
+                  <Input
+                    id={`${day.key}-open`}
+                    type="text"
+                    placeholder="08:00"
+                    pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+                    value={isClosed ? "" : (formData[day.key]?.open || "")}
+                    onChange={(e) => handleTimeChange(day.key, "open", e.target.value)}
+                    disabled={isClosed}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label htmlFor={`${day.key}-close`} className="text-xs text-muted-foreground">
+                    Closes
+                  </Label>
+                  <Input
+                    id={`${day.key}-close`}
+                    type="text"
+                    placeholder="18:00"
+                    pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+                    value={isClosed ? "" : (formData[day.key]?.close || "")}
+                    onChange={(e) => handleTimeChange(day.key, "close", e.target.value)}
+                    disabled={isClosed}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs text-muted-foreground">&nbsp;</Label>
+                  <Button
+                    type="button"
+                    variant={isClosed ? "default" : "outline"}
+                    size="sm"
+                    className="w-full"
+                    onClick={() => handleToggleClosed(day.key)}
+                  >
+                    {isClosed ? "Closed ✓" : "Set Closed"}
+                  </Button>
+                </div>
               </div>
-              <div className="space-y-1">
-                <Label htmlFor={`${day.key}-open`} className="text-xs text-muted-foreground">
-                  Opens
-                </Label>
-                <Input
-                  id={`${day.key}-open`}
-                  type="time"
-                  value={formData[day.key]?.open || ""}
-                  onChange={(e) => handleTimeChange(day.key, "open", e.target.value)}
-                />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor={`${day.key}-close`} className="text-xs text-muted-foreground">
-                  Closes
-                </Label>
-                <Input
-                  id={`${day.key}-close`}
-                  type="time"
-                  value={formData[day.key]?.close || ""}
-                  onChange={(e) => handleTimeChange(day.key, "close", e.target.value)}
-                />
-              </div>
-            </div>
-          ))}
+            );
+          })}
 
           <div className="pt-4">
             <Button type="submit" disabled={loading}>

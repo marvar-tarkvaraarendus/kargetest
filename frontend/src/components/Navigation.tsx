@@ -15,7 +15,7 @@ export default function Navigation() {
     <nav className="sticky top-0 z-50 bg-background border-b border-border">
       <div className="container mx-auto px-6 py-4">
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center justify-center gap-8">
+        <div className="hidden md:flex items-center justify-center gap-12">
           {/* Tellimused */}
           <Link
             href="/tellimused"
@@ -24,7 +24,7 @@ export default function Navigation() {
             {t("Tellimused", "Orders")}
           </Link>
 
-          {/* Logo */}
+          {/* Logo - centered */}
           <Link href="/" className="flex items-center group">
             <Image
               src="/assets/karge-logo-new.jpg"
@@ -44,7 +44,7 @@ export default function Navigation() {
           </Link>
 
           {/* Language switcher - absolute positioned to right */}
-          <div className="absolute right-6">
+          <div className="absolute right-10">
             <Button
               variant="outline"
               size="sm"

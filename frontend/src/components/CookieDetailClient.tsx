@@ -50,16 +50,23 @@ export default function CookieDetailClient({ cookie }: CookieDetailClientProps) 
           height={576}
           className="absolute -right-16 -bottom-32 w-[24rem] md:w-[36rem] opacity-100 animate-fade-in"
         />
-        {starPositions.map((star, index) => (
-          <Image
-            key={index}
-            src="/assets/KARGE täht lp.png"
-            alt=""
-            width={80}
-            height={80}
-            className={`absolute ${star.top} ${star.left} ${star.width} ${star.opacity} animate-fade-in`}
-          />
-        ))}
+        {starPositions.map((star, index) => {
+          // Extract percentage values from Tailwind classes (e.g., 'top-[5%]' -> '5%')
+          const topValue = star.top.match(/\[(.+)\]/)?.[1] || '0';
+          const leftValue = star.left.match(/\[(.+)\]/)?.[1] || '0';
+          
+          return (
+            <Image
+              key={index}
+              src="/assets/KARGE täht lp.png"
+              alt=""
+              width={80}
+              height={80}
+              style={{ top: topValue, left: leftValue }}
+              className={`absolute ${star.width} ${star.opacity} animate-fade-in`}
+            />
+          );
+        })}
       </div>
 
       <div className="container mx-auto px-6 relative z-10 py-20">

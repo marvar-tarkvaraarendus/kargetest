@@ -3,11 +3,17 @@ import { getOpeningTimes, updateOpeningTimes } from "@/lib/db";
 import { isAuthenticated } from "@/lib/auth";
 import { z } from "zod";
 
+// Time format: HH:MM or "closed"
+const timeString = z.string().refine(
+  (val) => val === "closed" || /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(val),
+  "Time must be in HH:MM format or 'closed'"
+);
+
 // Schema for validating opening times
 const openingTimesSchema = z.record(
   z.object({
-    open: z.string().regex(/^\d{2}:\d{2}$/, "Time must be in HH:MM format"),
-    close: z.string().regex(/^\d{2}:\d{2}$/, "Time must be in HH:MM format"),
+    open: timeString,
+    close: timeString,
   })
 );
 

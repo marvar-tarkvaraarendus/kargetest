@@ -41,3 +41,19 @@ model AdminUser {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// Contact Info - single instance table
+model ContactInfo {
+  id        String   @id @default("default")
+  phone     String   // e.g., "+372 1234 5678"
+  email     String   // e.g., "hello@karge.ee"
+  updatedAt DateTime @updatedAt
+}
+
+// About/Story - single instance table for "Meie lugu" section
+model AboutStory {
+  id        String   @id @default("default")
+  title     Json     // { "et": "Meie lugu", "en": "Our Story" }
+  content   Json     // { "et": "...", "en": "..." }
+  updatedAt DateTime @updatedAt
+}

@@ -112,7 +112,7 @@ export default function TellimusedClient() {
           </h2>
           <p className="text-xl text-muted-foreground">
             {t(
-              "Teie tellimus on varsti valmis",
+              "Teie tellimusega tegeletakse",
               "We'll have your order ready soon"
             )}
           </p>
@@ -153,16 +153,23 @@ export default function TellimusedClient() {
           height={576}
           className="absolute -right-16 -bottom-32 w-[24rem] md:w-[36rem] opacity-100 animate-fade-in"
         />
-        {starPositions.map((star, index) => (
-          <Image
-            key={index}
-            src="/assets/KARGE täht lp.png"
-            alt=""
-            width={80}
-            height={80}
-            className={`absolute ${star.top} ${star.left} ${star.width} ${star.opacity} animate-fade-in`}
-          />
-        ))}
+        {starPositions.map((star, index) => {
+          // Extract percentage values from Tailwind classes (e.g., 'top-[5%]' -> '5%')
+          const topValue = star.top.match(/\[(.+)\]/)?.[1] || '0';
+          const leftValue = star.left.match(/\[(.+)\]/)?.[1] || '0';
+          
+          return (
+            <Image
+              key={index}
+              src="/assets/KARGE täht lp.png"
+              alt=""
+              width={80}
+              height={80}
+              style={{ top: topValue, left: leftValue }}
+              className={`absolute ${star.width} ${star.opacity} animate-fade-in`}
+            />
+          );
+        })}
       </div>
 
       <div className="container mx-auto px-6 relative z-30">
@@ -257,7 +264,7 @@ export default function TellimusedClient() {
                           {getLocalizedText(product.name, language)}
                         </p>
                         <p className="text-lg font-bold text-pink-500">
-                          €{product.price}
+                          {product.price}€
                         </p>
                         <div className="flex items-center gap-3">
                           <Button
@@ -297,7 +304,9 @@ export default function TellimusedClient() {
                 <Input
                   id="pickupTime"
                   name="pickupTime"
-                  type="time"
+                  type="text"
+                  placeholder="14:00"
+                  pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
                   required
                   className="rounded-xl"
                 />
@@ -311,7 +320,7 @@ export default function TellimusedClient() {
                   id="notes"
                   name="notes"
                   placeholder={t(
-                    "Kas on erisoovisid või dieedi nõudeid?",
+                    "Kas on erisoove või dieedi nõudeid?",
                     "Any special requests or dietary requirements?"
                   )}
                   className="rounded-xl"
