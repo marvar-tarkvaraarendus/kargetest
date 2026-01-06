@@ -30,21 +30,21 @@ export default function CookieDetailClient({ cookie }: CookieDetailClientProps) 
       {/* Background decorations */}
       <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden">
         <Image
-          src="/assets/KARGE käsi keerd lp.png"
+          src="/assets/karge-kasi-keerd.png"
           alt=""
           width={576}
           height={576}
           className="absolute -right-32 -top-24 w-[24rem] md:w-[36rem] opacity-100 animate-fade-in"
         />
         <Image
-          src="/assets/KARGE käsi tass lp.png"
+          src="/assets/karge-kasi-tass.png"
           alt=""
           width={576}
           height={576}
           className="absolute -left-32 top-[40%] w-[24rem] md:w-[36rem] opacity-100 animate-fade-in"
         />
         <Image
-          src="/assets/KARGE käsi kohv lp.png"
+          src="/assets/karge-kasi-kohv.png"
           alt=""
           width={576}
           height={576}
@@ -58,7 +58,7 @@ export default function CookieDetailClient({ cookie }: CookieDetailClientProps) 
           return (
             <Image
               key={index}
-              src="/assets/KARGE täht lp.png"
+              src="/assets/karge-taht.png"
               alt=""
               width={80}
               height={80}
