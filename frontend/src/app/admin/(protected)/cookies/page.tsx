@@ -8,6 +8,8 @@ import { getLocalizedText } from "@/lib/utils";
 import AdminHeader from "@/components/admin/AdminHeader";
 import DeleteCookieButton from "@/components/admin/DeleteCookieButton";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminCookiesPage() {
   const cookies = await getAllCookies();
 

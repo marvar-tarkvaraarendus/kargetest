@@ -2,6 +2,8 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import OpeningTimesForm from "@/components/admin/OpeningTimesForm";
 import { getOpeningTimes } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export default async function OpeningTimesPage() {
   const openingTimes = await getOpeningTimes();
 

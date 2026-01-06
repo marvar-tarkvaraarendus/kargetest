@@ -2,6 +2,8 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import ContactInfoForm from "@/components/admin/ContactInfoForm";
 import { getContactInfo } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export default async function ContactInfoPage() {
   const contactInfo = await getContactInfo();
 

@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { getAllCookies, getOpeningTimes, getContactInfo, getAboutStory } from "@/lib/db";
 import AdminHeader from "@/components/admin/AdminHeader";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboard() {
   const cookies = await getAllCookies();
   const openingTimes = await getOpeningTimes();

@@ -2,6 +2,8 @@ import { getAboutStory } from "@/lib/db";
 import AboutStoryForm from "@/components/admin/AboutStoryForm";
 import AdminHeader from "@/components/admin/AdminHeader";
 
+export const dynamic = "force-dynamic";
+
 export default async function AboutStoryPage() {
   const aboutStory = await getAboutStory();
 

@@ -3,6 +3,8 @@ import Navigation from "@/components/Navigation";
 import MeistClient from "@/components/MeistClient";
 import { getOpeningTimes, getContactInfo, getAboutStory } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Meist | Karge Cafe",
   description: "Tutvu meie looga ja võta ühendust. Learn about our story and get in touch.",

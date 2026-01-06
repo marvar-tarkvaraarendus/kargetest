@@ -3,6 +3,8 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import CookieForm from "@/components/admin/CookieForm";
 import { getCookieById } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 interface EditCookiePageProps {
   params: Promise<{ id: string }>;
 }
