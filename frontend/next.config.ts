@@ -10,10 +10,15 @@ const nextConfig: NextConfig = {
   
   // Enable static image imports
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**",
+        hostname: "karge.ee",
+      },
+      {
+        protocol: "https",
+        hostname: "www.karge.ee",
       },
     ],
   },

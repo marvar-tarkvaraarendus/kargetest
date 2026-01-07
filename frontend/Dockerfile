@@ -21,6 +21,7 @@ RUN bun run db:generate
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 RUN bun run build
+RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" bun run build
 
 # --- Production Stage ---
 FROM base AS runner
@@ -30,8 +31,8 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # Create non-root user
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+RUN groupadd --gid 1001 nodejs && \
+    useradd --uid 1001 --gid nodejs --shell /bin/sh --create-home nextjs
 
 # Copy public assets
 COPY --from=builder /app/public ./public

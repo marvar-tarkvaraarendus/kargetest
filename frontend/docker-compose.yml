@@ -4,6 +4,8 @@ services:
     image: postgres:16-alpine
     container_name: karge-postgres
     restart: unless-stopped
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-karge}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kargepassword}
@@ -25,6 +27,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      network: host
     container_name: karge-app
     restart: unless-stopped
     environment:
@@ -33,7 +36,7 @@ services:
       - NODE_ENV=production
     volumes:
       # Persist uploaded images
-      - uploads_data:/app/public/uploads
+      - ./public/uploads:/app/public/uploads
     ports:
       - "3000:3000"
     depends_on:
