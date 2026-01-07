@@ -297,19 +297,36 @@ export default function TellimusedClient() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="pickupTime">
-                  {t("Peale võtmise aeg", "Pickup Time")}
-                </Label>
-                <Input
-                  id="pickupTime"
-                  name="pickupTime"
-                  type="text"
-                  placeholder="14:00"
-                  pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
-                  required
-                  className="rounded-xl"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="pickupDate">
+                    {t("Tellimuse kätte saamis kuupäev", "Pickup Date")}
+                  </Label>
+                  <Input
+                    id="pickupDate"
+                    name="pickupDate"
+                    type="text"
+                    placeholder={t("01.01", "01.01")}
+                    pattern="(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])"
+                    required
+                    className="rounded-xl"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="pickupTime">
+                    {t("Tellimuse kätte saamis aeg", "Pickup Time")}
+                  </Label>
+                  <Input
+                    id="pickupTime"
+                    name="pickupTime"
+                    type="text"
+                    placeholder="14:00"
+                    pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]"
+                    required
+                    className="rounded-xl"
+                  />
+                </div>
               </div>
 
               <div className="space-y-2">

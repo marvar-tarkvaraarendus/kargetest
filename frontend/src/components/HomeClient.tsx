@@ -91,10 +91,10 @@ export default function HomeClient({ cookies }: HomeClientProps) {
           <div className="container mx-auto px-6">
             <div className="text-center mb-10 animate-fade-in-up">
               <h2 className="text-4xl md:text-5xl font-bold text-pink-500">
-                {t("Küpsised", "Cookies")}
+                {t("Küpsised,", "Cookies,")}
               </h2>
               <p className="text-2xl md:text-3xl text-foreground mt-2">
-                {t("& muu hea ja parem", "& other good and better")}
+                {t("muu hea ja parem", "other good and better")}
               </p>
             </div>
 
