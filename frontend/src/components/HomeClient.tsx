@@ -68,9 +68,8 @@ export default function HomeClient({ cookies }: HomeClientProps) {
               <Image
                 src="/assets/karge-logo.png"
                 alt="Karge"
-                width={640}
-                height={640}
-                className="h-128 md:h-160 w-auto"
+                width={300}
+                height={300}
                 priority
               />
             </div>
