@@ -17,6 +17,10 @@ const config: Config = {
       },
     },
     extend: {
+      spacing: {
+        '128' : '32rem',
+        '160' : '40rem',
+      },
       fontFamily: {
         body: ["Poppins", "sans-serif"],
         logo: ["Pacifico", "cursive"],
