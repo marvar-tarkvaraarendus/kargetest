@@ -64,7 +64,7 @@ export default function TellimusedClient() {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch("https://formspree.io/f/mnnkvqov", {
+      const response = await fetch("https://formspree.io/f/xpqqlgdp", {
         method: "POST",
         body: formData,
         headers: {
