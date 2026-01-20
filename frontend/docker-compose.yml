@@ -35,6 +35,7 @@ services:
     volumes:
       # Persist uploaded images
       - ./public/uploads:/app/public/uploads
+      - ./public/uploads:/app/standalone/public/uploads
     ports:
       - "3000:3000"
     depends_on:
